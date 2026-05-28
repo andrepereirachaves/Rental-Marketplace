@@ -21,8 +21,31 @@ app/
 │   │   ├── services/
 │   │   │   └── escrow.js        # Lógica de retenção/liberação de pagamento
 │   │   └── index.js             # Entrypoint Fastify
+│   │   └── docs.html            # Página de documentação da API
 │   ├── Dockerfile
 │   ├── .dockerignore
+│   ├── README.md                # Documentação do backend
+│   ├── postman_collection.json  # Collection para Postman
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── layout.js        # Layout raiz com AuthProvider + Nav
+│   │   │   ├── page.js          # Home (catálogo + busca + filtros)
+│   │   │   ├── login/page.js    # Login
+│   │   │   ├── register/page.js # Cadastro
+│   │   │   ├── profile/page.js  # Perfil + KYC + avaliações pendentes
+│   │   │   ├── products/[id]/page.js  # Detalhe do produto + reserva
+│   │   │   ├── products/new/page.js   # Criar anúncio
+│   │   │   └── rentals/page.js  # Meus aluguéis + QR + avaliações
+│   │   ├── components/
+│   │   │   └── Nav.js           # Navbar responsiva
+│   │   ├── context/
+│   │   │   └── AuthContext.js   # Contexto de autenticação
+│   │   └── lib/
+│   │       └── api.js           # Cliente HTTP para API
+│   ├── Dockerfile               # Multi-stage build
+│   ├── README.md                # Documentação do frontend
 │   └── package.json
 ├── database/
 │   ├── init.sql                 # Schema completo do banco
@@ -343,7 +366,21 @@ Produtos cadastrados via seed SQL:
 
 ---
 
-## 9. COMANDOS ÚTEIS
+## 9. DOCUMENTAÇÃO DA API
+
+### Página Interativa
+Acesse `http://localhost:3000/docs` no navegador para uma documentação HTML completa com todos os endpoints, parâmetros, exemplos e códigos de status.
+
+### Postman Collection
+Importe o arquivo `backend/postman_collection.json` no Postman para ter todos os endpoints pré-configurados com variáveis de ambiente.
+
+### README por Módulo
+- `backend/README.md` — como rodar o backend, endpoints, autenticação
+- `frontend/README.md` — como rodar o frontend, páginas, componentes
+
+---
+
+## 10. COMANDOS ÚTEIS
 
 ```bash
 # ===== DOCKER =====

@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 
 const Fastify = require("fastify");
@@ -33,6 +34,11 @@ app.register(require("./routes/products"), { prefix: "/api/products" });
 app.register(require("./routes/rentals"), { prefix: "/api/rentals" });
 app.register(require("./routes/reviews"), { prefix: "/api/reviews" });
 app.register(require("./routes/users"), { prefix: "/api/users" });
+
+app.get("/docs", async (request, reply) => {
+  const html = fs.readFileSync(path.join(__dirname, "docs.html"), "utf-8");
+  reply.type("text/html").send(html);
+});
 
 const start = async () => {
   try {

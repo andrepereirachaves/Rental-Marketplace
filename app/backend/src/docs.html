@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rental Marketplace — API Docs</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; }
+  header { background: #1a1a2e; color: #fff; padding: 32px 24px; }
+  header h1 { font-size: 24px; margin-bottom: 4px; }
+  header p { color: #aaa; font-size: 14px; }
+  header span { display: inline-block; background: #e94560; color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-top: 8px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px; }
+  .card { background: #fff; border-radius: 8px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; }
+  .card-header { padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 8px; }
+  .card-header h2 { font-size: 16px; font-weight: 600; }
+  .card-body { padding: 16px 20px; }
+  .endpoint { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+  .endpoint:last-child { border: none; }
+  .method { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 3px; color: #fff; min-width: 50px; text-align: center; }
+  .get { background: #3498db; }
+  .post { background: #2ecc71; }
+  .patch { background: #f39c12; }
+  .delete { background: #e74c3c; }
+  .route { font-family: 'Courier New', monospace; font-size: 13px; color: #555; margin-left: 8px; }
+  .auth-badge { font-size: 10px; padding: 1px 6px; border-radius: 3px; margin-left: 8px; }
+  .auth-yes { background: #e74c3c; color: #fff; }
+  .auth-no { background: #95a5a6; color: #fff; }
+  .desc { font-size: 13px; color: #666; margin-top: 4px; margin-left: 62px; }
+  .params { margin-top: 8px; margin-left: 62px; font-size: 12px; }
+  .params table { width: 100%; border-collapse: collapse; }
+  .params th, .params td { text-align: left; padding: 4px 8px; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+  .params th { color: #888; font-weight: 500; }
+  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+  pre { background: #1a1a2e; color: #e0e0e0; padding: 12px; border-radius: 6px; font-size: 12px; overflow-x: auto; margin-top: 8px; margin-left: 62px; }
+  .tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #eef; color: #55a; margin-right: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container" style="padding:0">
+    <h1>Rental Marketplace API</h1>
+    <p>Documentação interativa dos endpoints</p>
+    <span>v1.0.0</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- AUTH -->
+  <div class="card">
+    <div class="card-header"><h2>🔐 Auth</h2><span class="tag">/api/auth</span></div>
+    <div class="card-body">
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/auth/register</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Criar nova conta. Retorna user + JWT.</div>
+        <div class="params">
+          <table>
+            <tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th></tr>
+            <tr><td>name</td><td>string</td><td>sim</td></tr>
+            <tr><td>email</td><td>string</td><td>sim</td></tr>
+            <tr><td>password</td><td>string</td><td>sim</td></tr>
+            <tr><td>phone</td><td>string</td><td>não</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/auth/login</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Login com email + senha. Retorna user + JWT.</div>
+        <div class="params">
+          <table>
+            <tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th></tr>
+            <tr><td>email</td><td>string</td><td>sim</td></tr>
+            <tr><td>password</td><td>string</td><td>sim</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/auth/me</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Dados do usuário autenticado.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="card">
+    <div class="card-header"><h2>📦 Products</h2><span class="tag">/api/products</span></div>
+    <div class="card-body">
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/products</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Listar produtos disponíveis com filtros.</div>
+        <div class="params">
+          <table>
+            <tr><th>Parâmetro</th><th>Tipo</th><th>Descrição</th></tr>
+            <tr><td>search</td><td>string</td><td>Busca textual (título + descrição)</td></tr>
+            <tr><td>category</td><td>string</td><td>Filtrar por categoria exata</td></tr>
+            <tr><td>min_price</td><td>number</td><td>Preço mínimo por dia</td></tr>
+            <tr><td>max_price</td><td>number</td><td>Preço máximo por dia</td></tr>
+            <tr><td>city</td><td>string</td><td>Filtrar por cidade</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/products/:id</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Detalhes de um produto específico.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/products</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Criar novo anúncio.</div>
+        <div class="params">
+          <table>
+            <tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th></tr>
+            <tr><td>title</td><td>string</td><td>sim</td></tr>
+            <tr><td>category</td><td>string</td><td>sim</td></tr>
+            <tr><td>price_per_day</td><td>number</td><td>sim</td></tr>
+            <tr><td>description</td><td>string</td><td>não</td></tr>
+            <tr><td>deposit_amount</td><td>number</td><td>não</td></tr>
+            <tr><td>city</td><td>string</td><td>não</td></tr>
+            <tr><td>state</td><td>string</td><td>não</td></tr>
+            <tr><td>latitude</td><td>number</td><td>não</td></tr>
+            <tr><td>longitude</td><td>number</td><td>não</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/products/categories/list</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Listar categorias disponíveis.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RENTALS -->
+  <div class="card">
+    <div class="card-header"><h2>📅 Rentals</h2><span class="tag">/api/rentals</span></div>
+    <div class="card-body">
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/rentals</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Listar todos os aluguéis.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/rentals/my</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Listar aluguéis do usuário logado.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/rentals</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Criar reserva (com Redis Lock + Escrow).</div>
+        <div class="params">
+          <table>
+            <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
+            <tr><td>product_id</td><td>uuid</td><td>ID do produto</td></tr>
+            <tr><td>start_date</td><td>date</td><td>YYYY-MM-DD</td></tr>
+            <tr><td>end_date</td><td>date</td><td>YYYY-MM-DD</td></tr>
+          </table>
+        </div>
+        <pre>{
+  "rental": { "id": "...", "total_price": "120.00" },
+  "message": "Payment held in escrow. Confirm pickup to release to owner."
+}</pre>
+      </div>
+      <div class="endpoint">
+        <span class="method patch">PATCH</span><span class="route">/api/rentals/:id/pickup</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Confirmar retirada do item.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method patch">PATCH</span><span class="route">/api/rentals/:id/return</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Confirmar devolução. Libera pagamento para o dono e atualiza status do produto.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="card">
+    <div class="card-header"><h2>⭐ Reviews</h2><span class="tag">/api/reviews</span></div>
+    <div class="card-body">
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/reviews</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Criar avaliação para aluguel concluído. A média do avaliado é recalculada automaticamente.</div>
+        <div class="params">
+          <table>
+            <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
+            <tr><td>rental_id</td><td>uuid</td><td>ID do aluguel concluído</td></tr>
+            <tr><td>rating</td><td>number</td><td>1 a 5</td></tr>
+            <tr><td>comment</td><td>string</td><td>Opcional</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/reviews/user/:userId</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Listar avaliações recebidas por um usuário.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/reviews/pending</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Aluguéis concluídos que ainda não foram avaliados pelo usuário logado.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USERS -->
+  <div class="card">
+    <div class="card-header"><h2>👤 Users</h2><span class="tag">/api/users</span></div>
+    <div class="card-body">
+      <div class="endpoint">
+        <span class="method get">GET</span><span class="route">/api/users/:id</span><span class="auth-badge auth-no">público</span>
+        <div class="desc">Dados públicos de um usuário.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method patch">PATCH</span><span class="route">/api/users/profile</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Atualizar nome, telefone e/ou avatar.</div>
+      </div>
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/users/kyc</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Enviar documento para verificação de identidade.</div>
+        <div class="params">
+          <table>
+            <tr><th>Campo</th><th>Tipo</th></tr>
+            <tr><td>document</td><td>string</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/users/generate-qr</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Gerar token criptográfico para confirmação presencial via QR Code.</div>
+        <div class="params">
+          <table><tr><th>Campo</th><th>Tipo</th></tr>
+          <tr><td>rental_id</td><td>uuid</td></tr></table>
+        </div>
+      </div>
+      <div class="endpoint">
+        <span class="method post">POST</span><span class="route">/api/users/validate-qr</span><span class="auth-badge auth-yes">🔒 protegido</span>
+        <div class="desc">Validar token QR. Se pickup pendente → confirma pickup. Se pickup ok → confirma return + libera pagamento.</div>
+        <div class="params">
+          <table><tr><th>Campo</th><th>Tipo</th></tr>
+          <tr><td>rental_id</td><td>uuid</td></tr>
+          <tr><td>token</td><td>string</td></tr></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH EXAMPLE -->
+  <div class="card">
+    <div class="card-header"><h2>🔑 Exemplo de Autenticação</h2></div>
+    <div class="card-body">
+      <p style="font-size:13px;color:#666;margin-bottom:8px;">Todos os endpoints protegidos exigem o header:</p>
+      <pre style="margin-left:0">Authorization: Bearer &lt;seu_token_jwt&gt;</pre>
+      <p style="font-size:13px;color:#666;margin-top:8px;">Exemplo completo com cURL:</p>
+      <pre style="margin-left:0"># 1. Login
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@email.com","password":"123456"}'
+
+# 2. Usar o token
+curl http://localhost:3000/api/auth/me \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..."</pre>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

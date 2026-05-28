@@ -1,0 +1,200 @@
+{
+  "info": {
+    "name": "Rental Marketplace API",
+    "description": "API para marketplace de aluguel de equipamentos\n\nBase URL: http://localhost:3000/api\nAuth: Bearer token via /auth/login",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth","register"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"name\":\"Novo Usuário\",\"email\":\"novo@email.com\",\"password\":\"123456\",\"phone\":\"(11) 99999-0000\"}" }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth","login"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"email\":\"test@email.com\",\"password\":\"123456\"}" }
+          }
+        },
+        {
+          "name": "Me (profile)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth","me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "Search Products",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products?search=furadeira&category=Ferramentas", "host": ["{{baseUrl}}"], "path": ["products"], "query": [{ "key": "search", "value": "furadeira" }, { "key": "category", "value": "Ferramentas" }] }
+          }
+        },
+        {
+          "name": "Get Product",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/REPLACE_WITH_PRODUCT_ID", "host": ["{{baseUrl}}"], "path": ["products","REPLACE_WITH_PRODUCT_ID"] }
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"title\":\"Parafusadeira Bosch GSR 120-LI\",\"description\":\"Parafusadeira a bateria 12V, acompanha carregador e maleta\",\"category\":\"Ferramentas\",\"price_per_day\":25,\"deposit_amount\":100,\"city\":\"São Paulo\",\"state\":\"SP\"}" }
+          }
+        },
+        {
+          "name": "Categories",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/products/categories/list", "host": ["{{baseUrl}}"], "path": ["products","categories","list"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rentals",
+      "item": [
+        {
+          "name": "My Rentals",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/rentals/my", "host": ["{{baseUrl}}"], "path": ["rentals","my"] }
+          }
+        },
+        {
+          "name": "Create Rental",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/rentals", "host": ["{{baseUrl}}"], "path": ["rentals"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"product_id\":\"REPLACE_WITH_PRODUCT_ID\",\"start_date\":\"2026-06-01\",\"end_date\":\"2026-06-03\"}" }
+          }
+        },
+        {
+          "name": "Confirm Pickup",
+          "request": {
+            "method": "PATCH",
+            "url": { "raw": "{{baseUrl}}/rentals/REPLACE_WITH_RENTAL_ID/pickup", "host": ["{{baseUrl}}"], "path": ["rentals","REPLACE_WITH_RENTAL_ID","pickup"] }
+          }
+        },
+        {
+          "name": "Confirm Return",
+          "request": {
+            "method": "PATCH",
+            "url": { "raw": "{{baseUrl}}/rentals/REPLACE_WITH_RENTAL_ID/return", "host": ["{{baseUrl}}"], "path": ["rentals","REPLACE_WITH_RENTAL_ID","return"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/reviews", "host": ["{{baseUrl}}"], "path": ["reviews"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"rental_id\":\"REPLACE_WITH_RENTAL_ID\",\"rating\":5,\"comment\":\"Ótimo equipamento, tudo funcionando perfeitamente!\"}" }
+          }
+        },
+        {
+          "name": "Pending Reviews",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/reviews/pending", "host": ["{{baseUrl}}"], "path": ["reviews","pending"] }
+          }
+        },
+        {
+          "name": "Reviews by User",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/reviews/user/REPLACE_WITH_USER_ID", "host": ["{{baseUrl}}"], "path": ["reviews","user","REPLACE_WITH_USER_ID"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/users/REPLACE_WITH_USER_ID", "host": ["{{baseUrl}}"], "path": ["users","REPLACE_WITH_USER_ID"] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PATCH",
+            "url": { "raw": "{{baseUrl}}/users/profile", "host": ["{{baseUrl}}"], "path": ["users","profile"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"name\":\"Nome Atualizado\",\"phone\":\"(11) 98888-0000\"}" }
+          }
+        },
+        {
+          "name": "Submit KYC",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/users/kyc", "host": ["{{baseUrl}}"], "path": ["users","kyc"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"document\":\"123.456.789-00\"}" }
+          }
+        },
+        {
+          "name": "Generate QR",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/users/generate-qr", "host": ["{{baseUrl}}"], "path": ["users","generate-qr"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"rental_id\":\"REPLACE_WITH_RENTAL_ID\"}" }
+          }
+        },
+        {
+          "name": "Validate QR",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/users/validate-qr", "host": ["{{baseUrl}}"], "path": ["users","validate-qr"] },
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"rental_id\":\"REPLACE_WITH_RENTAL_ID\",\"token\":\"REPLACE_WITH_QR_TOKEN\"}" }
+          }
+        }
+      ]
+    }
+  ]
+}

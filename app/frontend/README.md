@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Rental Marketplace — Frontend
 
-## Getting Started
+Aplicação web para marketplace de aluguel de equipamentos.
 
-First, run the development server:
+**Stack:** Next.js 16, React 19, Tailwind CSS v4  
+**Porta:** 3001 (desenvolvimento)
+
+---
+
+## ⚡ Início Rápido
 
 ```bash
+# 1. Instalar dependências
+npm install
+
+# 2. Iniciar servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3001](http://localhost:3001) no navegador.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+> **Nota:** O backend precisa estar rodando em `http://localhost:3000`.  
+> Para subir o backend, use `docker compose up -d` na raiz do projeto (`../`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📄 Páginas
 
-To learn more about Next.js, take a look at the following resources:
+| Rota | Descrição | Requer Login |
+|------|-----------|:---:|
+| `/` | Catálogo com busca e filtros | ❌ |
+| `/login` | Entrar | ❌ |
+| `/register` | Criar conta | ❌ |
+| `/products/[id]` | Detalhe do produto + reserva | ❌* |
+| `/products/new` | Criar anúncio | ✅ |
+| `/rentals` | Meus aluguéis + QR Code + avaliações | ✅ |
+| `/profile` | Editar perfil + KYC + avaliações pendentes | ✅ |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*\* Reserva exige login*
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧩 Componentes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Arquivo | Descrição |
+|---------|-----------|
+| `components/Nav.js` | Navbar com navegação condicional |
+| `context/AuthContext.js` | Estado global de autenticação |
+| `lib/api.js` | Cliente HTTP para a API |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🔧 Variáveis de Ambiente
+
+No arquivo `.env.local` na raiz do frontend:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+```
+
+Se não definido, o padrão é `http://localhost:3000/api`.
+
+---
+
+## 📦 Scripts
+
+```bash
+npm run dev     # Desenvolvimento (localhost:3001)
+npm run build   # Build de produção
+npm start       # Servir build (porta 3001)
+npm run lint    # Verificar erros
+```
+
+---
+
+## 🐳 Docker
+
+No ambiente Docker completo (usando `docker compose` na raiz), o frontend é servido na porta 3001 automaticamente.
+
+```bash
+cd .. && docker compose up -d
+```
+
+---
+
+## 🗄️ Estrutura
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── layout.js           # Layout global
+│   │   ├── page.js             # Home (catálogo)
+│   │   ├── login/page.js       # Login
+│   │   ├── register/page.js    # Cadastro
+│   │   ├── profile/page.js     # Perfil + KYC
+│   │   ├── products/
+│   │   │   ├── [id]/page.js    # Detalhe do produto
+│   │   │   └── new/page.js     # Criar anúncio
+│   │   └── rentals/page.js     # Meus aluguéis
+│   ├── components/
+│   │   └── Nav.js
+│   ├── context/
+│   │   └── AuthContext.js
+│   └── lib/
+│       └── api.js
+├── Dockerfile                  # Multi-stage build
+└── package.json
+```
